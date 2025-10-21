@@ -1,4 +1,0 @@
-[
-  {"id":"k1","name":"Benefits Realized","value":42.7,"unit":"%","trend":"up","trendPercentage":2.3,"status":"green"},
-  {"id":"k2","name":"Budget Variance","value":-3.4,"unit":"%","trend":"down","trendPercentage":1.1,"status":"amber"}
-]

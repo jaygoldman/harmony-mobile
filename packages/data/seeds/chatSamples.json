@@ -1,0 +1,7 @@
+[
+  { "role": "user", "content": "What changed in the budget this week?" },
+  {
+    "role": "harmony",
+    "content": "Net change +2.1% driven by contractor spend; see Tasks for mitigation."
+  }
+]

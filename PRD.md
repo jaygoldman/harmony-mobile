@@ -16,6 +16,7 @@ Harmony Mobile is a proof-of-concept mobile application for Conductor by Sensei 
 ## 1. Project Scope & Goals
 
 ### Goals
+
 - Validate mobile UX patterns for Conductor's core workflows
 - Demonstrate AI integration (Harmony) in a mobile context
 - Prove feasibility of real-time notifications and widget support
@@ -23,12 +24,14 @@ Harmony Mobile is a proof-of-concept mobile application for Conductor by Sensei 
 - Explore wearable (Apple Watch/Android Wear) integration opportunities
 
 ### Non-Goals (for PoC)
+
 - Production-grade backend integration
 - Full authentication/authorization system
 - Complete feature parity with Conductor web platform
 - App Store public release
 
 ### Success Metrics
+
 - Successfully deploy to TestFlight and Android sideload
 - Demonstrate all 5 core tabs with simulated data
 - Functioning QR code authentication flow
@@ -42,11 +45,14 @@ Harmony Mobile is a proof-of-concept mobile application for Conductor by Sensei 
 ### QR Code Authentication Specification
 
 #### Web App Requirements (Azure Single Page App)
+
 The Conductor web app will include an "Add Conductor Mobile" feature with the following specifications:
 
 **QR Code Generation:**
+
 - Generate new QR code every 3 minutes for security
 - QR code encodes a JSON payload with the following structure:
+
 ```json
 {
   "version": "1.0",
@@ -60,12 +66,14 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 ```
 
 **Security Requirements:**
+
 - authToken is a temporary JWT valid for 10 minutes
 - Once scanned and authenticated, the token becomes invalid
 - Device registration completes the handshake and issues long-term credentials
 - Support for multiple device registrations per user
 
 **Display Requirements:**
+
 - Show QR code prominently in desktop browser
 - Display countdown timer showing time until next QR refresh
 - Instructions: "Scan this code with the Harmony Mobile app"
@@ -74,6 +82,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 #### Mobile App Requirements
 
 **First Launch Experience:**
+
 1. Welcome screen with Conductor/Harmony branding
 2. Instructions:
    - "To get started, open Conductor in your browser"
@@ -86,6 +95,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 7. **Hidden Developer Shortcut:** Tap logo/title 7 times rapidly to reveal "Skip Authentication" button that bypasses QR flow with mock credentials (for PoC testing/demos)
 
 **QR Scanner Technical Requirements:**
+
 - Use device camera with real-time QR detection
 - Haptic feedback on successful scan (iOS) / vibration (Android)
 - Error handling for invalid/expired codes
@@ -93,6 +103,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Manual retry option
 
 **Persistent Authentication:**
+
 - Store long-term credentials securely (Keychain on iOS, KeyStore on Android)
 - Auto-login on subsequent app launches
 - Support for re-authentication/device re-linking
@@ -107,6 +118,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Primary Function:** AI-powered conversational interface for Conductor insights
 
 **Features:**
+
 - **Multiple Chat Sessions**
   - Create new chat
   - List previous chats with titles (auto-generated from first message)
@@ -147,6 +159,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
   - Contextual suggestions
 
 **Simulated Behavior:**
+
 - Local LLM-style responses with realistic latency (1-3s)
 - Pre-scripted responses for common queries
 - Fallback responses for unrecognized input
@@ -159,6 +172,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Primary Function:** Real-time feed of updates from Conductor, integrations, and Harmony insights
 
 **Entry Types:**
+
 - **Conductor Events**
   - Approval Requests
   - Deal Updates
@@ -196,6 +210,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
   - Risk Alerts
 
 **Features:**
+
 - **Feed Display**
   - Infinite scroll with pull-to-refresh
   - Entry cards with icon, title, description, timestamp
@@ -227,6 +242,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Primary Function:** Dashboard of key performance indicators with widget support
 
 **Dashboard Features:**
+
 - **Tile Grid Layout**
   - Responsive grid (2 columns on phone, 3+ on tablet)
   - Drag-to-reorder tiles
@@ -251,6 +267,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Home Screen Widget Support:**
 
 **iOS Widgets:**
+
 - Small widget: 1-2 KPIs
 - Medium widget: 2-4 KPIs
 - Large widget: 4-6 KPIs
@@ -259,6 +276,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Lock Screen widgets (iOS 16+)
 
 **Android Widgets:**
+
 - Small (2x2): 1 KPI
 - Medium (4x2): 2-3 KPIs
 - Large (4x4): 4-6 KPIs
@@ -266,12 +284,14 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Material You theming support
 
 **Widget Technical Requirements:**
+
 - Update frequency: Every 15 minutes or on-demand
 - Tap widget → Deep link to KPI detail in app
 - Low battery impact (efficient refresh strategy)
 - Offline fallback with last known values
 
 **KPI Detail View:**
+
 - Full chart history
 - Breakdown by sub-components
 - Historical trend analysis
@@ -285,6 +305,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Primary Function:** Personal task list from Conductor
 
 **Features:**
+
 - **Task List Display**
   - All outstanding tasks assigned to user
   - Grouped by: Due Date, Workspace, Initiative, Workstream, Project, Priority
@@ -324,6 +345,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Primary Function:** Daily Harmony AI-generated program update podcasts
 
 **Features:**
+
 - **Now Playing Section (Top Pane)**
   - Episode artwork
   - Episode title and date
@@ -372,6 +394,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
   - Professional voiceover quality
 
 **Sample Episodes for PoC:**
+
 1. "Program Update - January 21, 2025" (4:23)
 2. "Program Update - January 20, 2025" (3:47)
 
@@ -384,10 +407,12 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Platform-Specific Location:**
 
 **iOS:**
+
 - Profile icon in top-right corner of any tab
 - Follows iOS Settings app patterns with grouped lists
 
 **Android:**
+
 - Three-dot menu (⋮) in top-right corner accessible from any tab
 - Follows Material Design settings patterns
 
@@ -425,6 +450,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
    - Send feedback
 
 **Settings UI Patterns:**
+
 - iOS: Use native Settings UI components (grouped lists, switches)
 - Android: Material Design preferences with proper hierarchy
 - Settings persist across app restarts
@@ -437,27 +463,32 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 ### Notification Types
 
 **Activity Feed Notifications:**
+
 - High-priority Conductor updates
 - @mentions in comments
 - Approval requests
 - Risk escalations
 
 **KPI Notifications:**
+
 - KPI threshold breaches
 - Significant trend changes
 - Target achievement
 
 **Task Notifications:**
+
 - New task assignments
 - Due date reminders
 - Task updates
 
 **Podcast Notifications:**
+
 - New episode available
 
 ### Platform-Specific Implementation
 
 **iOS:**
+
 - Rich notifications with images/actions
 - Notification grouping by app section
 - Critical alerts for urgent items (requires permission)
@@ -465,6 +496,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Interactive actions (e.g., "Mark Complete", "View")
 
 **Android:**
+
 - Notification channels per category
 - Expanded notification layouts
 - Action buttons
@@ -472,6 +504,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Notification dots
 
 ### User Controls
+
 - Per-category notification settings
 - Quiet hours/Do Not Disturb respect
 - Notification preview on/off
@@ -486,6 +519,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Apple Watch App:**
 
 **Included Features:**
+
 1. **Harmony Voice Chat**
    - Raise to speak or tap-to-talk
    - Transcription on watch face
@@ -514,6 +548,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
    - Auto-play latest on morning commute (via Shortcuts)
 
 **Not Included (for PoC):**
+
 - Activity Feed (too much content for watch UX)
 - Full task management
 - Complex KPI navigation
@@ -521,6 +556,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 **Android Wear App:**
 
 **Included Features:**
+
 1. **Harmony Voice Chat**
    - Voice-first interaction
    - Text responses on watch
@@ -541,6 +577,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
    - Episode selection
 
 ### Technical Considerations
+
 - **Apple Watch:** watchOS 9+ required, SwiftUI for watch app
 - **Android Wear:** Wear OS 3+ required, Jetpack Compose for Wear
 - Efficient data sync (minimize battery drain)
@@ -604,21 +641,22 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
    - "Hey Google, ask Harmony about Q1 budget"
    - "Hey Google, show my Conductor tasks"
 
-**Nice-to-Have:**
-6. **Lock Screen Shortcuts**
-   - Quick access without unlocking
+**Nice-to-Have:** 6. **Lock Screen Shortcuts**
+
+- Quick access without unlocking
 
 7. **Notification Actions**
    - Rich notification interactions
    - Complete tasks from notification
-
 
 ---
 
 ## 6.7 Design System & Branding
 
 ### Brand Overview
+
 **To be provided:** Please share brand guidelines, logos, and fonts through one of these methods:
+
 1. Create a `/design` folder in this repo with:
    - `brand-guidelines.pdf` or `brand-guidelines.md`
    - Logo files (SVG, PNG) in `/design/logos/`
@@ -632,6 +670,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 ### Design Principles (Placeholder)
 
 **Conductor Brand Identity:**
+
 - Professional, enterprise-grade aesthetic
 - Clean, data-focused interfaces
 - Trustworthy and authoritative
@@ -639,6 +678,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 - Accessible and inclusive
 
 **Harmony Sub-Brand:**
+
 - Friendly, conversational AI personality
 - Intelligent and insightful
 - Approachable yet professional
@@ -647,6 +687,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 ### Color Palette (To Be Provided)
 
 Please provide:
+
 ```
 Primary Brand Colors:
 - Primary: #XXXXXX (name)
@@ -675,6 +716,7 @@ Background Colors:
 ### Typography (To Be Provided)
 
 Please provide:
+
 ```
 Primary Font Family:
 - Name: (e.g., "Inter", "SF Pro", "Roboto")
@@ -697,17 +739,20 @@ Type Scale:
 ### Logo Assets Needed
 
 **Conductor Logo:**
+
 - Full color horizontal logo (SVG + PNG @1x, @2x, @3x)
 - White/knockout version for dark backgrounds
 - Icon/mark only (square format for app icon)
 - Minimum clear space specifications
 
 **Harmony Logo/Icon:**
+
 - Harmony wordmark or logo
 - Harmony icon (for chat interface, notifications)
 - Animated version if available (for loading states)
 
 **App Icons:**
+
 - iOS app icon (1024x1024px)
 - Android app icon (adaptive icon with foreground + background)
 - Watch app icons (various sizes)
@@ -716,12 +761,14 @@ Type Scale:
 ### Iconography
 
 Please specify:
+
 - Icon library in use (e.g., SF Symbols, Material Icons, custom set)
 - Icon style: Outline, filled, rounded, sharp
 - Icon stroke weight
 - If custom icons, provide as SVG set
 
 **Required Icons (minimum):**
+
 - Tab bar icons (5): Harmony, Activity, KPIs, Tasks, Podcasts
 - Agent avatars (10 agents)
 - Activity type icons (14 types)
@@ -732,12 +779,14 @@ Please specify:
 ### Agent Avatars/Icons
 
 For the 10 Harmony agents, please provide:
+
 - Visual identity for each agent (avatar, icon, or illustrated character)
 - Color coding if applicable
 - Consistent style across all agents
 - Size: 48x48pt minimum, vector preferred
 
 **Agents requiring visuals:**
+
 1. CFO Agent
 2. Chief Risk Officer Agent
 3. Chief Compliance Officer Agent
@@ -752,11 +801,13 @@ For the 10 Harmony agents, please provide:
 ### UI Components
 
 **Cards:**
+
 - Border radius: XXpx
 - Shadow/elevation style
 - Padding standards
 
 **Buttons:**
+
 - Primary button style
 - Secondary button style
 - Text button style
@@ -764,17 +815,20 @@ For the 10 Harmony agents, please provide:
 - Border radius
 
 **Input Fields:**
+
 - Text input styling
 - Focus states
 - Error states
 - Label positioning
 
 **Navigation:**
+
 - Tab bar styling (iOS/Android differences)
 - Header/app bar styling
 - Back button treatment
 
 **Status Indicators:**
+
 - RAG (Red/Amber/Green) visualization
 - Progress bars
 - Trend indicators (arrows, sparklines)
@@ -782,6 +836,7 @@ For the 10 Harmony agents, please provide:
 ### Motion & Animation
 
 Please specify:
+
 - Transition duration standards (fast: XXms, medium: XXms, slow: XXms)
 - Easing curves preferred
 - Loading animation style
@@ -800,12 +855,14 @@ Please specify:
 ### Platform-Specific Considerations
 
 **iOS:**
+
 - Follow iOS Human Interface Guidelines where applicable
 - Use native iOS UI elements where possible (tab bar, navigation bar, alerts)
 - Support Safe Area insets
 - Haptic feedback patterns
 
 **Android:**
+
 - Follow Material Design 3 guidelines
 - Support Material You dynamic theming (Android 12+)
 - Use Material components where possible
@@ -825,19 +882,21 @@ Please specify:
 ### Tech Stack Recommendations
 
 **Cross-Platform Framework:**
+
 - **Option 1: React Native** (Recommended for PoC speed)
   - Pros: Fast development, single codebase, good library ecosystem
   - Cons: Some native features require bridges
-  
 - **Option 2: Flutter**
   - Pros: Excellent performance, beautiful UI, single codebase
   - Cons: Slightly steeper learning curve for widgets/wearables
 
 **Native Development:**
+
 - **iOS:** Swift + SwiftUI (for watch app and extensions)
 - **Android:** Kotlin + Jetpack Compose (for Wear OS and widgets)
 
 **For PoC, recommend React Native with native modules for:**
+
 - Watch apps (native)
 - Widgets (native)
 - Complex platform extensions (native)
@@ -845,11 +904,13 @@ Please specify:
 ### Simulated Backend
 
 **Local Data Storage:**
+
 - SQLite or Realm for structured data
 - AsyncStorage for settings/preferences
 - Secure storage for auth tokens
 
 **Simulated API Responses:**
+
 - Mock JSON responses with realistic latency
 - Local generators for:
   - Activity feed items
@@ -858,6 +919,7 @@ Please specify:
   - Task data
 
 **Future Backend Connection:**
+
 - API layer designed with Azure endpoint structure
 - Easy swap from mock to real endpoints
 - GraphQL or REST (match Conductor web app)
@@ -952,6 +1014,7 @@ interface ChatMessage {
 ## 8. Development Phases
 
 ### Phase 1: Foundation (Week 1-2)
+
 - [ ] Project setup (React Native)
 - [ ] Navigation structure (5 tabs)
 - [ ] QR code authentication flow
@@ -959,6 +1022,7 @@ interface ChatMessage {
 - [ ] Mock data layer
 
 ### Phase 2: Core Features (Week 3-5)
+
 - [ ] Harmony chat UI with mock responses
 - [ ] Activity feed with filtering
 - [ ] KPI dashboard with tile management
@@ -966,6 +1030,7 @@ interface ChatMessage {
 - [ ] Podcast player with 2 episodes
 
 ### Phase 3: Advanced Features (Week 6-7)
+
 - [ ] Push notifications setup
 - [ ] Home screen widgets (iOS & Android)
 - [ ] Lock screen widgets
@@ -973,12 +1038,14 @@ interface ChatMessage {
 - [ ] KPI hierarchy navigation
 
 ### Phase 4: Wearables (Week 8-9)
+
 - [ ] Apple Watch app
 - [ ] Android Wear app
 - [ ] Watch complications
 - [ ] Handoff functionality
 
 ### Phase 5: Extensions & Polish (Week 10-11)
+
 - [ ] Siri Shortcuts / Google Assistant
 - [ ] Share extensions
 - [ ] App shortcuts
@@ -986,6 +1053,7 @@ interface ChatMessage {
 - [ ] Dark mode support
 
 ### Phase 6: Testing & Deployment (Week 12)
+
 - [ ] TestFlight setup and distribution
 - [ ] Android APK generation and sideloading instructions
 - [ ] User testing feedback collection
@@ -996,12 +1064,14 @@ interface ChatMessage {
 ## 9. Testing Strategy
 
 ### Devices
+
 - **iOS:** iPhone 15 Pro Max (primary), iPhone SE (testing), iPad Air (tablet UI)
 - **iOS Simulators:** iOS 16, 17, 18
 - **Android Emulators:** Pixel 7, Samsung Galaxy S23, Tablet
 - **Watches:** Apple Watch Series 9 simulator, Wear OS emulator
 
 ### Test Scenarios
+
 1. QR code scanning in various lighting conditions
 2. Background audio playback (podcasts)
 3. Notification delivery and interaction
@@ -1012,6 +1082,7 @@ interface ChatMessage {
 8. Voice input accuracy
 
 ### Beta Testing
+
 - Internal team: 5-10 users
 - TestFlight: 25-50 external users
 - Android: 10-20 sideload users
@@ -1022,15 +1093,17 @@ interface ChatMessage {
 ## 10. Success Criteria
 
 ### Functional Requirements
+
 ✅ All 5 tabs fully functional with simulated data  
 ✅ QR code authentication working end-to-end  
 ✅ Notifications delivered and actionable  
 ✅ Home screen widgets updating correctly  
 ✅ Podcast playback with background audio  
 ✅ Watch apps with core features  
-✅ TestFlight and Android deployment successful  
+✅ TestFlight and Android deployment successful
 
 ### User Experience Goals
+
 - Onboarding completion in <2 minutes
 - Chat response time <3 seconds
 - Smooth animations (60fps)
@@ -1038,6 +1111,7 @@ interface ChatMessage {
 - Intuitive navigation (minimal user guidance needed)
 
 ### Technical Goals
+
 - App size <100MB
 - Cold start time <2 seconds
 - Battery drain <5% per hour of active use

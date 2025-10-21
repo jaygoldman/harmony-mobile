@@ -16,6 +16,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Phase 0 – Workspace & Foundations
+
 1. Set up React Native monorepo structure, TypeScript configuration, linting, formatting, Husky hooks, and basic CI workflow.
 2. Scaffold simulated backend/data providers for chat, activity feed, KPIs, tasks, and podcasts with deterministic seed data.
 3. Establish theming system (typography, colors, spacing) and asset pipeline with placeholders for brand resources.
@@ -39,7 +40,9 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Phase 2 – Feature Buildout (Tabs)
+
 ### Harmony Tab
+
 1. Multi-session chat manager with session list, creation, search, delete, and favorite/star capabilities.
 2. Agent mention system:
    - Agent catalog (including acronyms, duplicates where necessary).
@@ -54,26 +57,31 @@ This file translates the high-level delivery plan into actionable tasks for Code
    - Background audio handling and permissions.
 
 ### Activity Tab
+
 1. Infinite feed with sections, filtering, unread indicators, and simulated update scheduler.
 2. Inline actions and deep-link placeholders.
 3. Push notification trigger hooks (no system notifications yet).
 
 ### KPIs Tab
+
 1. Tile grid with detail views, management flows (add/remove/reorder), and state persistence.
 2. KPI hierarchy navigation and saved presets.
 3. Data contract alignment with widget requirements.
 
 ### Tasks Tab
+
 1. Grouped lists with swipe actions, CRUD flows, reminders placeholder hooks.
 2. Detail view with comments/history mock data.
 
 ### Podcasts Tab
+
 1. Episode list, detail view, and player UI with background audio support.
 2. Download/offline placeholder, new-episode notification hooks.
 
 ---
 
 ## Phase 3 – Advanced iOS Capabilities
+
 1. Push notifications: local categories, actions, user controls, developer-mode simulator.
 2. Widgets & Live Activities: home/lock screen widgets tied to KPI module outputs, data refresh strategies.
 3. Harmony voice mode refinement with chosen speech APIs (mock or integrated) including streaming transcript pipeline.
@@ -82,6 +90,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Phase 4 – Wearables & Extensions
+
 1. Apple Watch companion app (SwiftUI): Harmony voice chat, KPI glances, task quick view, podcast controls, haptics.
 2. Siri Shortcuts, Spotlight indexing, share extension, quick actions.
 3. UI polish: motion design, accessibility audits, dark mode tweaks, developer-mode utilities enhancements.
@@ -89,6 +98,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Phase 5 – Stabilization & Release Readiness
+
 1. Comprehensive QA matrix covering voice, offline behavior, background audio, widgets, watch handoff.
 2. Bug triage, stabilization, and instrumentation/logging improvements.
 3. Prepare TestFlight build, release notes, onboarding instructions, developer-mode documentation, and demo scripts.
@@ -96,7 +106,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Android Follow-On Strategy (Post-TestFlight)
+
 1. Reuse shared React Native core; implement Android-specific storage, navigation, theming (Material You), and vibration feedback.
 2. Build Android widgets, quick settings tiles, app shortcuts, and Wear OS experience.
 3. Align release process for Android sideload builds once iOS parity baseline is validated.
-
