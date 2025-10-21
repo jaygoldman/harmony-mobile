@@ -1,0 +1,4 @@
+[
+  {"id":"a1","type":"task","platform":"conductor","title":"Approve Q1 budget","description":"$2.3M vs plan","timestamp":"2025-01-21T14:03:00Z","priority":"high","isRead":false},
+  {"id":"a2","type":"risk","platform":"harmony","title":"Risk: supply delay","description":"ETA slipped 2 weeks","timestamp":"2025-01-21T13:12:00Z","priority":"medium","isRead":false}
+]
