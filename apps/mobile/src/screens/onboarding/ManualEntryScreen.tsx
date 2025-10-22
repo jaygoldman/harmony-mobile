@@ -11,13 +11,59 @@ type Props = NativeStackScreenProps<OnboardingStackParamList, 'ManualEntry'>;
 
 const formatCode = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
 
+const extractSiteFromUrl = (value: string) => {
+  const raw = value.trim();
+  if (!raw) return '';
+  try {
+    const url = /^https?:\/\//i.test(raw) ? new URL(raw) : new URL(`https://${raw}`);
+    const host = url.hostname.toLowerCase();
+    if (host.endsWith('.senseilabs.com')) {
+      return host.replace(/\.senseilabs\.com$/i, '');
+    }
+    return host.replace(/\/.*$/, '');
+  } catch {
+    return raw
+      .toLowerCase()
+      .replace(/^https?:\/\//i, '')
+      .replace(/\/.*$/, '')
+      .replace(/\.senseilabs\.com$/i, '');
+  }
+};
+
+const buildApiUrl = (value: string) => {
+  const raw = value.trim();
+  if (!raw) return '';
+
+  if (/^https?:\/\//i.test(raw)) {
+    return raw;
+  }
+
+  const cleaned = raw
+    .toLowerCase()
+    .replace(/^https?:\/\//i, '')
+    .replace(/\/.*$/, '')
+    .replace(/\s+/g, '');
+
+  if (!cleaned) {
+    return '';
+  }
+
+  if (cleaned.endsWith('.senseilabs.com')) {
+    return `https://${cleaned}`;
+  }
+
+  return `https://${cleaned}.senseilabs.com`;
+};
+
 export const ManualEntryScreen: React.FC<Props> = ({ navigation, route }) => {
   const { colors, spacing, typography } = useTheme();
   const { state, connect, clearErrors } = useSession();
   const [code, setCode] = useState(route.params?.code ? formatCode(route.params.code) : '');
-  const [apiUrl, setApiUrl] = useState(route.params?.apiUrl ?? '');
+  const [site, setSite] = useState(
+    route.params?.apiUrl ? extractSiteFromUrl(route.params.apiUrl) : ''
+  );
   const [codeError, setCodeError] = useState<string | undefined>();
-  const [apiError, setApiError] = useState<string | undefined>();
+  const [siteError, setSiteError] = useState<string | undefined>();
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,7 +83,7 @@ export const ManualEntryScreen: React.FC<Props> = ({ navigation, route }) => {
     };
   }, [clearErrors]);
 
-  const validate = () => {
+  const validate = (): string | null => {
     let hasError = false;
     if (code.length !== 8) {
       setCodeError('Enter the 8-character code shown on your desktop.');
@@ -46,30 +92,32 @@ export const ManualEntryScreen: React.FC<Props> = ({ navigation, route }) => {
       setCodeError(undefined);
     }
 
-    if (!apiUrl.trim()) {
-      setApiError('Enter the API URL from the pairing screen.');
+    const resolvedUrl = buildApiUrl(site);
+    if (!resolvedUrl) {
+      setSiteError('Enter the Conductor site from the pairing screen.');
       hasError = true;
     } else {
       try {
         // eslint-disable-next-line no-new
-        new URL(apiUrl.trim());
-        setApiError(undefined);
+        new URL(resolvedUrl);
+        setSiteError(undefined);
       } catch {
-        setApiError('That does not look like a valid URL.');
+        setSiteError('That Conductor site does not look right.');
         hasError = true;
       }
     }
-    return !hasError;
+    return hasError ? null : resolvedUrl;
   };
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (!validate()) {
+    const resolvedUrl = validate();
+    if (!resolvedUrl) {
       return;
     }
     setIsSubmitting(true);
     try {
-      await connect({ code: code.trim(), apiUrl: apiUrl.trim() });
+      await connect({ code: code.trim(), apiUrl: resolvedUrl });
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Unable to connect right now.');
     } finally {
@@ -109,8 +157,8 @@ export const ManualEntryScreen: React.FC<Props> = ({ navigation, route }) => {
             marginBottom: spacing.xl,
           }}
         >
-          The Harmony desktop app shows both the code and the API URL. Codes expire after 15
-          minutes.
+          The Harmony desktop app shows both the code and the Conductor site (the subdomain before
+          .senseilabs.com). Codes expire after 10 minutes.
         </Text>
 
         <TextField
@@ -128,13 +176,14 @@ export const ManualEntryScreen: React.FC<Props> = ({ navigation, route }) => {
         />
 
         <TextField
-          label="API URL"
-          value={apiUrl}
-          onChangeText={(text) => setApiUrl(text.trimStart())}
+          label="Conductor site"
+          value={site}
+          onChangeText={(text) => setSite(text.replace(/\s+/g, '').toLowerCase())}
           autoCapitalize="none"
           autoCorrect={false}
           keyboardType="url"
-          errorText={apiError}
+          helperText="Enter the subdomain shown on desktop, e.g. acme for acme.senseilabs.com."
+          errorText={siteError}
           returnKeyType="done"
         />
 

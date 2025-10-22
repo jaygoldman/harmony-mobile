@@ -1,4 +1,4 @@
-# Harmony Mobile — iOS-First Execution Plan
+# Conductor Mobile — iOS-First Execution Plan
 
 This file translates the high-level delivery plan into actionable tasks for Codex agents. Execute work sequentially per phase unless a dependency allows parallelization. Target platform is iOS (iPhone + Watch) first; Android tasks are queued for after iOS TestFlight readiness.
 

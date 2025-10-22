@@ -15,6 +15,7 @@ module.exports = {
     jest: true,
     node: true
   },
+  ignorePatterns: ['types/**/*'],
   settings: {
     'import/resolver': {
       typescript: {

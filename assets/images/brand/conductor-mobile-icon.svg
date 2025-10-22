@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 29.8.2, SVG Export Plug-In . SVG Version: 2.1.1 Build 3)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+      }
+
+      .st1 {
+        fill: url(#linear-gradient2);
+      }
+
+      .st2 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st3 {
+        fill: url(#linear-gradient3);
+      }
+
+      .st4 {
+        fill: url(#linear-gradient5);
+      }
+
+      .st5 {
+        fill: url(#linear-gradient4);
+      }
+
+      .st6 {
+        fill: url(#linear-gradient);
+      }
+
+      .st7 {
+        clip-path: url(#clippath-1);
+      }
+
+      .st8 {
+        clip-path: url(#clippath-3);
+      }
+
+      .st9 {
+        clip-path: url(#clippath-2);
+      }
+
+      .st10 {
+        clip-path: url(#clippath-6);
+      }
+
+      .st11 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0" y1="512" x2="2048" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#53d3c3"/>
+      <stop offset="1" stop-color="#8b1e90"/>
+    </linearGradient>
+    <clipPath id="clippath">
+      <polygon class="st0" points="144.3 724.5 503.6 512 503.6 299.4 324 405.7 144.3 299.4 144.3 724.5"/>
+    </clipPath>
+    <linearGradient id="linear-gradient1" x1="111.1" y1="533.3" x2="123.1" y2="533.3" gradientTransform="translate(-37655.7 8638.3) rotate(-90) scale(71.2)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3c7dad"/>
+      <stop offset=".2" stop-color="#3c7dad"/>
+      <stop offset="1" stop-color="#b93c95"/>
+    </linearGradient>
+    <clipPath id="clippath-1">
+      <polygon class="st0" points="503.6 512 683.3 405.7 863 299.4 503.6 87 503.6 512"/>
+    </clipPath>
+    <linearGradient id="linear-gradient2" x1="117.5" y1="528.2" x2="123.5" y2="528.2" gradientTransform="translate(17835.6 -40980.9) rotate(35.6) scale(82.5)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a57ab5"/>
+      <stop offset=".5" stop-color="#a57ab5"/>
+      <stop offset="1" stop-color="#bf9dc9"/>
+      <stop offset="1" stop-color="#bf9dc9"/>
+    </linearGradient>
+    <clipPath id="clippath-2">
+      <polygon class="st0" points="144.3 299.4 324 405.7 503.6 299.4 503.6 87 144.3 299.4"/>
+    </clipPath>
+    <linearGradient id="linear-gradient3" x1="114.1" y1="533.1" x2="120.1" y2="533.1" gradientTransform="translate(-37640.6 8638.3) rotate(-90) scale(71.2)" xlink:href="#linear-gradient1"/>
+    <clipPath id="clippath-3">
+      <polygon class="st0" points="144.3 299.4 324 405.7 503.6 512 503.6 87 144.3 299.4"/>
+    </clipPath>
+    <linearGradient id="linear-gradient4" x1="114.5" y1="527.9" x2="122.4" y2="527.9" gradientTransform="translate(26059.7 -5464.7) rotate(90) scale(48.8)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8a288f"/>
+      <stop offset="0" stop-color="#8a288f"/>
+      <stop offset="1" stop-color="#363d96"/>
+    </linearGradient>
+    <clipPath id="clippath-6">
+      <polygon class="st0" points="144.3 724.5 503.6 937 863 724.5 503.6 512 144.3 724.5"/>
+    </clipPath>
+    <linearGradient id="linear-gradient5" x1="120.9" y1="532.5" x2="129.6" y2="532.5" gradientTransform="translate(14752 -34791.5) rotate(35) scale(69.9)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d2dd26"/>
+      <stop offset=".3" stop-color="#a8ce38"/>
+      <stop offset="1" stop-color="#65c5bb"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_3">
+    <rect class="st6" width="1024" height="1024"/>
+    <g id="sLppmg.tif">
+      <image id="Layer_0" width="105" height="467" transform="translate(1259.6 209.1) scale(3.6)" xlink:href="conductor-mobile-icon-1.png"/>
+    </g>
+  </g>
+  <g id="Icon">
+    <g>
+      <g class="st11">
+        <polygon class="st2" points="144.3 299.5 503.6 299.5 503.6 512 144.3 724.5 144.3 299.5"/>
+      </g>
+      <g class="st7">
+        <polygon class="st1" points="352.7 297.6 625.5 -83.1 1013.8 195.1 513.2 540.5 352.7 297.6"/>
+      </g>
+      <g class="st9">
+        <rect class="st3" x="144.3" y="87" width="359.3" height="318.8"/>
+      </g>
+      <g class="st8">
+        <polygon class="st5" points="144.3 87 503.6 87 503.6 512 144.3 405.8 144.3 87"/>
+      </g>
+      <g class="st10">
+        <polygon class="st4" points="90 736.7 358 354 967.3 697.4 480.8 1010.4 90 736.7"/>
+      </g>
+    </g>
+  </g>
+</svg>

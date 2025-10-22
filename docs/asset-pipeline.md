@@ -1,4 +1,4 @@
-# Harmony Mobile Asset Pipeline
+# Conductor Mobile Asset Pipeline
 
 This document outlines how brand assets flow into the React Native workspace and where to drop placeholders while design deliverables are in progress.
 

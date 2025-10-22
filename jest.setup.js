@@ -11,4 +11,4 @@ global.setImmediate = global.setImmediate || ((fn, ...args) => setTimeout(fn, 0,
 
 global.clearImmediate = global.clearImmediate || ((id) => clearTimeout(id));
 
-jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+jest.mock('react-native-reanimated', () => require('./jest/mocks/react-native-reanimated'));

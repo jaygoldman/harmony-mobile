@@ -1,4 +1,13 @@
+import { asyncStorage, secureStorage } from '@harmony/utils';
 import { createDeveloperSettingsStore } from '../devMode';
+
+const DEV_SETTINGS_KEY = '@harmony/dev-settings';
+const DEV_CREDENTIALS_KEY = 'harmony-dev-credentials';
+
+beforeEach(async () => {
+  await asyncStorage.remove(DEV_SETTINGS_KEY);
+  await secureStorage.remove(DEV_CREDENTIALS_KEY);
+});
 
 describe('developer settings store', () => {
   it('persists updates and applies feature overrides', async () => {
@@ -28,5 +37,18 @@ describe('developer settings store', () => {
     await store.setQrBypassCredentials(null);
     const cleared = await store.getSettings();
     expect(cleared.qrBypassCredentials).toBeNull();
+  });
+
+  it('handles corrupted stored credentials gracefully', async () => {
+    await secureStorage.set(DEV_CREDENTIALS_KEY, 'not-json');
+
+    const store = createDeveloperSettingsStore();
+    const settings = await store.getSettings();
+
+    expect(settings.qrBypassEnabled).toBe(false);
+    expect(settings.qrBypassCredentials).toBeNull();
+
+    const persistedCredentials = await secureStorage.get(DEV_CREDENTIALS_KEY);
+    expect(persistedCredentials).toBeNull();
   });
 });

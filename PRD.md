@@ -1,4 +1,4 @@
-# Harmony Mobile - Product Requirements Document (PoC)
+# Conductor Mobile - Product Requirements Document (PoC)
 
 **Version:** 1.0  
 **Date:** January 21, 2025  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Harmony Mobile is a proof-of-concept mobile application for Conductor by Sensei Labs. The app provides on-the-go access to AI-powered insights, KPI tracking, activity monitoring, task management, and AI-generated program updates via podcast format. This PoC aims to validate the mobile experience and gather feedback before full production development.
+Conductor Mobile is a proof-of-concept mobile application for Conductor by Sensei Labs. The app provides on-the-go access to AI-powered insights, KPI tracking, activity monitoring, task management, and AI-generated program updates via podcast format. This PoC aims to validate the mobile experience and gather feedback before full production development.
 
 ---
 
@@ -76,7 +76,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 
 - Show QR code prominently in desktop browser
 - Display countdown timer showing time until next QR refresh
-- Instructions: "Scan this code with the Harmony Mobile app"
+- Instructions: "Scan this code with the Conductor Mobile app"
 - Status indicator when successfully scanned
 
 #### Mobile App Requirements
@@ -285,7 +285,7 @@ The Conductor web app will include an "Add Conductor Mobile" feature with the fo
 
 **Widget Technical Requirements:**
 
-- Update frequency: Every 15 minutes or on-demand
+- Update frequency: Every 10 minutes or on-demand
 - Tap widget → Deep link to KPI detail in app
 - Low battery impact (efficient refresh strategy)
 - Offline fallback with last known values

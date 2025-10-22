@@ -23,7 +23,30 @@ type KeychainModule = {
 let KeychainModule: KeychainModule | undefined;
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  KeychainModule = require('react-native-keychain');
+  const required = require('react-native-keychain') as unknown;
+  const isKeychainModule = (candidate: unknown): candidate is KeychainModule => {
+    if (!candidate || typeof candidate !== 'object') {
+      return false;
+    }
+    const moduleCandidate = candidate as Partial<KeychainModule>;
+    return (
+      typeof moduleCandidate.setGenericPassword === 'function' &&
+      typeof moduleCandidate.getGenericPassword === 'function' &&
+      typeof moduleCandidate.resetGenericPassword === 'function'
+    );
+  };
+
+  if (isKeychainModule(required)) {
+    KeychainModule = required;
+  } else if (
+    required &&
+    typeof required === 'object' &&
+    isKeychainModule((required as { default?: unknown }).default)
+  ) {
+    KeychainModule = (required as { default?: unknown }).default as KeychainModule;
+  } else {
+    KeychainModule = undefined;
+  }
 } catch (error) {
   KeychainModule = undefined;
 }

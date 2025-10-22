@@ -36,7 +36,7 @@ const StatefulNavigator: React.FC<StatefulNavigatorProps> = ({ status }) => {
             marginTop: spacing.md,
           }}
         >
-          Preparing Harmony Mobile…
+          Preparing Conductor Mobile…
         </Text>
       </View>
     );

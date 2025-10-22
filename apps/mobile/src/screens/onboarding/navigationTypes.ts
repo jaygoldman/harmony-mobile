@@ -1,6 +1,5 @@
 export type OnboardingStackParamList = {
   Welcome: undefined;
-  Scan: undefined;
   ManualEntry:
     | {
         code?: string;

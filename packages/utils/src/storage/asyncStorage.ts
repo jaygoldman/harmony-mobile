@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 
-type AsyncStorageNativeModule = {
+export type AsyncStorageEngine = {
   getItem: (key: string) => Promise<string | null>;
   setItem: (key: string, value: string) => Promise<void>;
   removeItem: (key: string) => Promise<void>;
@@ -9,21 +9,37 @@ type AsyncStorageNativeModule = {
   multiSet?: (entries: [string, string][]) => Promise<void>;
 };
 
-let AsyncStorageNative: AsyncStorageNativeModule | undefined;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  AsyncStorageNative = require('@react-native-async-storage/async-storage');
-} catch (error) {
-  AsyncStorageNative = undefined;
-}
+const isAsyncStorageEngine = (candidate: unknown): candidate is AsyncStorageEngine => {
+  if (!candidate || typeof candidate !== 'object') {
+    return false;
+  }
+  const objectCandidate = candidate as Partial<AsyncStorageEngine>;
+  return (
+    typeof objectCandidate.getItem === 'function' &&
+    typeof objectCandidate.setItem === 'function' &&
+    typeof objectCandidate.removeItem === 'function' &&
+    typeof objectCandidate.clear === 'function'
+  );
+};
 
-export type AsyncStorageEngine = {
-  getItem: (key: string) => Promise<string | null>;
-  setItem: (key: string, value: string) => Promise<void>;
-  removeItem: (key: string) => Promise<void>;
-  clear: () => Promise<void>;
-  multiGet?: (keys: readonly string[]) => Promise<[string, string | null][]>;
-  multiSet?: (entries: [string, string][]) => Promise<void>;
+const resolveNativeAsyncStorage = (): AsyncStorageEngine | undefined => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const required = require('@react-native-async-storage/async-storage') as unknown;
+    if (isAsyncStorageEngine(required)) {
+      return required;
+    }
+    if (
+      required &&
+      typeof required === 'object' &&
+      isAsyncStorageEngine((required as { default?: unknown }).default)
+    ) {
+      return (required as { default?: unknown }).default as AsyncStorageEngine;
+    }
+  } catch {
+    // fall through to memory engine
+  }
+  return undefined;
 };
 
 const memoryStore = new Map<string, string>();
@@ -49,7 +65,7 @@ const memoryEngine: AsyncStorageEngine = {
   },
 };
 
-const engine: AsyncStorageEngine = AsyncStorageNative ?? memoryEngine;
+const engine: AsyncStorageEngine = resolveNativeAsyncStorage() ?? memoryEngine;
 
 export const asyncStorage = {
   engine,

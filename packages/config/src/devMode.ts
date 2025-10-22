@@ -49,14 +49,40 @@ export const createDeveloperSettingsStore = (
 
   const ensureLoaded = async () => {
     if (loaded) return;
-    const persisted = await asyncStorage.getJSON<DeveloperSettings>(DEV_SETTINGS_KEY);
-    const persistedCredentials = await secureStorage.get(DEV_CREDENTIALS_KEY);
+    let persisted: DeveloperSettings | null = null;
+    let persistedCredentialsRaw: string | null = null;
+
+    try {
+      persisted = await asyncStorage.getJSON<DeveloperSettings>(DEV_SETTINGS_KEY);
+    } catch {
+      persisted = null;
+    }
+
+    try {
+      persistedCredentialsRaw = await secureStorage.get(DEV_CREDENTIALS_KEY);
+    } catch {
+      persistedCredentialsRaw = null;
+    }
+
+    let persistedCredentials: DeveloperCredentials | null = null;
+
+    if (persistedCredentialsRaw) {
+      try {
+        persistedCredentials = JSON.parse(persistedCredentialsRaw) as DeveloperCredentials;
+      } catch (error) {
+        persistedCredentials = null;
+        try {
+          await secureStorage.remove(DEV_CREDENTIALS_KEY);
+        } catch {
+          // best effort cleanup; ignore secure storage errors
+        }
+      }
+    }
+
     settings = {
       ...DEFAULT_SETTINGS,
       ...(persisted ?? {}),
-      qrBypassCredentials: persistedCredentials
-        ? (JSON.parse(persistedCredentials) as DeveloperCredentials)
-        : null,
+      qrBypassCredentials: persistedCredentials,
     };
     await applyFeatureOverrides(settings.featureOverrides ?? {});
     loaded = true;
@@ -66,11 +92,24 @@ export const createDeveloperSettingsStore = (
 
   const persist = async () => {
     const { qrBypassCredentials, ...rest } = settings;
-    await asyncStorage.setJSON(DEV_SETTINGS_KEY, rest);
+    try {
+      await asyncStorage.setJSON(DEV_SETTINGS_KEY, rest);
+    } catch {
+      // best effort persistence; ignore storage write failures
+    }
+
     if (qrBypassCredentials) {
-      await secureStorage.set(DEV_CREDENTIALS_KEY, JSON.stringify(qrBypassCredentials));
+      try {
+        await secureStorage.set(DEV_CREDENTIALS_KEY, JSON.stringify(qrBypassCredentials));
+      } catch {
+        // Ignore secure storage failures; in-memory settings still apply
+      }
     } else {
-      await secureStorage.remove(DEV_CREDENTIALS_KEY);
+      try {
+        await secureStorage.remove(DEV_CREDENTIALS_KEY);
+      } catch {
+        // ignore missing or inaccessible credentials entries
+      }
     }
     notify();
   };

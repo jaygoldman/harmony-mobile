@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 declare module '@react-navigation/bottom-tabs' {
   import * as React from 'react';
   import type { ParamListBase } from '@react-navigation/native';
@@ -14,21 +15,42 @@ declare module '@react-navigation/bottom-tabs' {
     headerShown?: boolean;
   }
 
-  export type BottomTabNavigator = React.ComponentType<{
-    initialRouteName?: string;
-    screenOptions?: BottomTabNavigationOptions | ((props: any) => BottomTabNavigationOptions);
-    children: React.ReactNode;
-  }>;
+  type RouteName<ParamList extends ParamListBase> = Extract<keyof ParamList, string>;
 
-  export type BottomTabScreen = React.ComponentType<{
-    name: keyof ParamListBase | string;
-    component: React.ComponentType<any>;
+  type ScreenOptionsContext<ParamList extends ParamListBase> = {
+    route: {
+      key: string;
+      name: RouteName<ParamList>;
+      params: ParamList[RouteName<ParamList>];
+    };
+    navigation: {
+      navigate: (name: RouteName<ParamList>, params?: ParamList[RouteName<ParamList>]) => void;
+      goBack: () => void;
+    };
+  };
+
+  export type BottomTabNavigatorProps<ParamList extends ParamListBase> = {
+    initialRouteName?: RouteName<ParamList>;
+    screenOptions?:
+      | BottomTabNavigationOptions
+      | ((context: ScreenOptionsContext<ParamList>) => BottomTabNavigationOptions);
+    children: React.ReactNode;
+  };
+
+  export type BottomTabScreenProps<ParamList extends ParamListBase> = {
+    name: RouteName<ParamList>;
+    component: React.ComponentType<object>;
     options?: BottomTabNavigationOptions;
-  }>;
+  };
+
+  export type BottomTabGroupProps = {
+    children: React.ReactNode;
+    screenOptions?: BottomTabNavigationOptions;
+  };
 
   export function createBottomTabNavigator<ParamList extends ParamListBase>(): {
-    Navigator: BottomTabNavigator;
-    Screen: BottomTabScreen;
-    Group: React.ComponentType<any>;
+    Navigator: React.ComponentType<BottomTabNavigatorProps<ParamList>>;
+    Screen: React.ComponentType<BottomTabScreenProps<ParamList>>;
+    Group: React.ComponentType<BottomTabGroupProps>;
   };
 }
