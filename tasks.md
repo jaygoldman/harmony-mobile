@@ -5,6 +5,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Global Guidelines
+
 - Follow the connection-code authentication contract defined in `mobile-auth.md` for establishing and renewing desktop ↔ mobile sessions.
 - Use React Native with shared TypeScript modules and Swift/SwiftUI for native iOS extensions (watch app, widgets, Siri shortcuts).
 - Prefer mocked/simulated services until explicit integration tasks are defined.
@@ -15,7 +16,14 @@ This file translates the high-level delivery plan into actionable tasks for Code
 
 ---
 
-## Phase 0 – Workspace & Foundations
+### Status Update
+
+- Phase 0 deliverables are complete; resolutions are recorded in `docs/open-questions.md` and `docs/issues/phase-0-follow-ups.md`.
+- Phase 1 workstreams are now in scope and should be executed next.
+
+---
+
+## Phase 0 – Workspace & Foundations _(Completed)_
 
 1. Set up React Native monorepo structure, TypeScript configuration, linting, formatting, Husky hooks, and basic CI workflow.
 2. Scaffold simulated backend/data providers for chat, activity feed, KPIs, tasks, and podcasts with deterministic seed data.
@@ -26,6 +34,7 @@ This file translates the high-level delivery plan into actionable tasks for Code
 ---
 
 ## Phase 1 – Core iOS Application Shell
+
 1. Implement connection-code onboarding flow:
    - Welcome screens guiding QR scan or manual entry of the 8-character code payload described in `mobile-auth.md`.
    - QR scanner that parses `{ code, apiUrl }`, manual entry fallback that captures both values, and validation/error states for missing or expired codes.

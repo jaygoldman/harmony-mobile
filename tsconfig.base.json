@@ -16,7 +16,8 @@
       "@harmony/navigation": ["packages/navigation/src"],
       "@harmony/data": ["packages/data/src"],
       "@harmony/utils": ["packages/utils/src"],
-      "@harmony/config": ["packages/config/src"]
+      "@harmony/config": ["packages/config/src"],
+      "@harmony/session": ["packages/session/src"]
     }
   }
 }
