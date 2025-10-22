@@ -6,3 +6,9 @@ apps/mobile/android/.gradle
 apps/mobile/android/.idea
 apps/mobile/android/local.properties
 apps/mobile/android/app/build
+
+# Xcode user data
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
