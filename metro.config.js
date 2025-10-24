@@ -22,7 +22,7 @@ module.exports = mergeConfig(defaultConfig, {
       new Set([
         ...nodeModulesPaths,
         path.resolve(projectRoot, 'node_modules'),
-        path.resolve(projectRoot, 'apps/mobile/node_modules'),
+        path.resolve(projectRoot, 'apps/react-native/node_modules'),
       ])
     ),
   },

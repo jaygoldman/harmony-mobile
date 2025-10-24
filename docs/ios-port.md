@@ -4,6 +4,8 @@
 
 Your information about iOS is out of date. The current release of iOS is 26.0.1. The current release of XCode is Version 26.0.1 (17A400). The current version of Swift is 6.2. The installed version of Swift is Apple Swift version 6.2 (swiftlang-6.2.0.19.9 clang-1700.3.19.1). We're targeting iOS 26 for the release and can leverage all the latest iOS features in the build. Read this page if you require more information on current releases: https://developer.apple.com/documentation/ios-ipados-release-notes.
 
+The deploy target is iOS26 and the Swift Language Target = 6.0.
+
 ## Naming note
 
 Earlier versions of the app were called Harmony. The app is correctly called "Conductor". Make sure all references to names refer to Conductor. Harmony is the AI in Conductor and the name of the first tab in the app.
@@ -13,6 +15,7 @@ Earlier versions of the app were called Harmony. The app is correctly called "Co
 - Deliver a best-in-class, Swift-native Conductor demo that showcases the Liquid Glass interface introduced with iOS 26 while adhering to Apple’s latest Human Interface Guidelines.
 - Focus on polished UX for the existing feature set (Harmony chat, activity feed, KPIs, tasks, podcasts, onboarding, settings) without engineering production-scale backend flows.
 - Keep the architecture lightweight so designers can iterate quickly—privilege design fidelity, deterministic data, and demo stability over extensibility.
+- Rely on native system controls (e.g., `TabView`, `NavigationStack`, `Toolbar`) and layer styling on top—no custom reimplementations of standard UIKit/SwiftUI chrome.
 - Maintain essential privacy and accessibility behaviours, deferring complex offline or real-time systems unless they directly support the demo narrative.
 
 ## Current React Native Snapshot
@@ -50,7 +53,7 @@ Earlier versions of the app were called Harmony. The app is correctly called "Co
 
 ### Navigation & state
 
-- Use `TabView` with a custom glass tab bar to match the current structure while embracing iOS 26 materials and haptics.
+- Use the system `TabView`/`UITabBar` for primary navigation, layering Liquid Glass styling via toolbar backgrounds rather than rebuilding the control.
 - Drive feature flows with `NavigationStack`/`NavigationPath`, limiting deep-linking to scripted demo journeys.
 - Manage state with lightweight `@Observable` view models resolved via a simple dependency container—no heavy singleton graph.
 

@@ -1,2 +1,2 @@
-// Entry point for Xcode builds — delegates to the mobile app bundle.
-require('./apps/mobile/index');
+// Entry point for Xcode builds — delegates to the React Native bundle.
+require('./apps/react-native/index');

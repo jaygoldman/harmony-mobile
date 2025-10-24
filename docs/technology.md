@@ -5,12 +5,12 @@ This document orients new contributors to the Conductor Mobile proof-of-concept.
 ## High-Level Architecture
 
 - **Monorepo with Yarn workspaces.** `package.json` defines the mobile app in `apps/` and shared libraries in `packages/`. Tooling (TypeScript config, Babel, Jest) lives at the repository root so code can be shared across packages without relative import spaghetti.
-- **React Native runtime.** The JS entry point (`apps/mobile/index.js`) registers the `App` component with the native host. `ios/` and `android/` contain the standard React Native platform scaffolding; you rarely touch them unless adding native modules.
+- **React Native runtime.** The JS entry point (`apps/react-native/index.js`) registers the `App` component with the native host. `ios/` and `android/` contain the standard React Native platform scaffolding; you rarely touch them unless adding native modules.
 - **Module aliases.** `babel.config.js` and `tsconfig.base.json` alias `@harmony/*` to the corresponding workspace source folders so imports stay stable across the monorepo.
 - **Metro bundler setup.** `metro.config.js` extends the default configuration to treat SVGs as source files (transformed with `react-native-svg-transformer`) and watches shared packages for live reload.
 
 ```
-apps/mobile/App.tsx
+apps/react-native/App.tsx
  └─ ThemeProvider (@harmony/theme)
     └─ SessionProvider (@harmony/session)
        └─ RootNavigator (react-navigation)
@@ -45,8 +45,8 @@ apps/mobile/App.tsx
 
 ## Runtime Composition
 
-- **App shell (`apps/mobile/App.tsx`).** Wraps the app in `ThemeProvider`, `SafeAreaProvider`, and the session context before mounting `RootNavigator`.
-- **Navigation.** `RootNavigator` (apps/mobile/src/navigation/RootNavigator.tsx) chooses between the onboarding stack (`OnboardingNavigator`) and the main tab navigator (`MainNavigator`) based on session status. Both navigators are built with `@react-navigation` (stack + bottom tabs).
+- **App shell (`apps/react-native/App.tsx`).** Wraps the app in `ThemeProvider`, `SafeAreaProvider`, and the session context before mounting `RootNavigator`.
+- **Navigation.** `RootNavigator` (apps/react-native/src/navigation/RootNavigator.tsx) chooses between the onboarding stack (`OnboardingNavigator`) and the main tab navigator (`MainNavigator`) based on session status. Both navigators are built with `@react-navigation` (stack + bottom tabs).
 - **Screen patterns.** Tab screens (Harmony, Activity, KPIs, Tasks, Podcasts) follow the same template: fetch data through `useAsyncList`, show a loading indicator (`LoadingState`) until the list resolves, render cards styled via the theme system, and surface recoverable errors with `StateMessage`.
 
 ## Session Lifecycle & Persistence
@@ -54,13 +54,13 @@ apps/mobile/App.tsx
 - **Session store (`@harmony/session`).** `createSessionStore` encapsulates connection logic. It talks to the backend via `fetch`, validates QR/code payloads, and persists the resulting session in secure storage.
   - Tokens and user details are kept in the platform keychain through the `secureStorage` wrapper.
   - Lightweight session status is duplicated into async storage (`AsyncStorage`) so the app can restore state quickly at launch.
-- **SessionProvider.** A single instance is created in `apps/mobile/src/state/SessionProvider.tsx`, exposes the store through React context, and subscribes components to state changes. `RootNavigator` relies on this context to gate the navigation flow.
+- **SessionProvider.** A single instance is created in `apps/react-native/src/state/SessionProvider.tsx`, exposes the store through React context, and subscribes components to state changes. `RootNavigator` relies on this context to gate the navigation flow.
 - **Onboarding screens.** `WelcomeScreen` embeds the QR scanner while `ManualEntryScreen` provides the fallback form. Both call `session.connect` and surface validation errors. The temporary `DeveloperToolsScreen` can inject mock credentials via the developer settings store (see below).
 
 ## Shared Packages (the `@harmony/*` namespace)
 
 - **`@harmony/theme`.** Owns design tokens (`tokens.ts`), constructs light/dark themes (`theme.ts`), and exports `ThemeProvider` plus hooks (`useTheme`, `useHarmonyTheme`). React Native styles rely on these values for spacing, typography, and color consistency.
-- **`@harmony/data`.** Supplies deterministic, in-memory data providers backed by JSON seeds (`packages/data/seeds/*.json`). Factories like `createActivityProvider` and `createChatStore` simulate latency, generate stable IDs, and expose a `HarmonyDataClient` composed in `createHarmonyDataClient`. UI code (via `dataClient` from `apps/mobile/src/state/stores.ts`) reads from this layer while real APIs are still under development.
+- **`@harmony/data`.** Supplies deterministic, in-memory data providers backed by JSON seeds (`packages/data/seeds/*.json`). Factories like `createActivityProvider` and `createChatStore` simulate latency, generate stable IDs, and expose a `HarmonyDataClient` composed in `createHarmonyDataClient`. UI code (via `dataClient` from `apps/react-native/src/state/stores.ts`) reads from this layer while real APIs are still under development.
 - **`@harmony/session`.** Described above; includes TypeScript definitions for session payloads and the state machine that orchestrates connect/disconnect flows.
 - **`@harmony/config`.** Houses the developer settings store and feature flag client.
   - `createFeatureFlagClient` persists boolean flags in async storage and notifies subscribers.
@@ -70,8 +70,8 @@ apps/mobile/App.tsx
 
 ## Data Flow in the Main Tabs
 
-1. Each screen pulls the singleton `dataClient` from `apps/mobile/src/state/stores.ts`.
-2. `useAsyncList` (apps/mobile/src/hooks/useAsyncList.ts) handles the async lifecycle: loading, pull-to-refresh, caching with `useState`, and error propagation.
+1. Each screen pulls the singleton `dataClient` from `apps/react-native/src/state/stores.ts`.
+2. `useAsyncList` (apps/react-native/src/hooks/useAsyncList.ts) handles the async lifecycle: loading, pull-to-refresh, caching with `useState`, and error propagation.
 3. The data client proxies to the relevant provider (`activity`, `kpis`, `tasks`, `podcasts`, `chat`). Providers read from frozen seed objects and return clones, which keeps the fake data immutable outside the package.
 4. Screens transform the data into presentational cards and rely on the theme tokens for styling.
 
@@ -97,7 +97,7 @@ Because everything is in-memory today, fetching is effectively instant. The fake
 - **TypeScript everywhere.** `tsconfig.json` pulls in `apps`, `packages`, and root configs so cross-package imports are type-checked. Screens/components compile with the `react-native` JSX target.
 - **Linting & formatting.** `yarn lint` runs ESLint across apps and packages; Prettier handles formatting (configured via `lint-staged` for pre-commit checks).
 - **Testing.** Jest uses the React Native preset (`jest.config.js`), plus setup in `jest.setup.js` to mock out gesture handlers, Reanimated, animation timers, and other native shims.
-- **Scripts.** `apps/mobile/package.json` exposes the usual `react-native` CLI commands (`yarn ios`, `yarn android`, `yarn start`). Top-level `yarn ci` chains lint, type-check, and tests.
+- **Scripts.** `apps/react-native/package.json` exposes the usual `react-native` CLI commands (`yarn ios`, `yarn android`, `yarn start`). Top-level `yarn ci` chains lint, type-check, and tests.
 
 ## Getting Oriented Quickly
 
