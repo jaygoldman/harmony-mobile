@@ -83,12 +83,6 @@ struct MobileAPIClient {
             request.httpBody = body
         }
 
-        let requestLogBody: String = {
-            guard let body else { return "<empty>" }
-            return String(data: body, encoding: .utf8) ?? "<non-UTF8 body>"
-        }()
-        print("[API] -> \(method.rawValue) \(url.absoluteString) payload: \(requestLogBody)")
-
         do {
             let (data, response) = try await urlSession.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
@@ -97,12 +91,8 @@ struct MobileAPIClient {
 
             switch httpResponse.statusCode {
             case 200...299:
-                let responseLogBody = String(data: data, encoding: .utf8) ?? "<non-UTF8 body>"
-                print("[API] <- \(httpResponse.statusCode) \(url.absoluteString) response: \(responseLogBody)")
                 return try decoder.decode(T.self, from: data)
             default:
-                let errorLogBody = String(data: data, encoding: .utf8) ?? "<non-UTF8 body>"
-                print("[API] !! \(httpResponse.statusCode) \(url.absoluteString) response: \(errorLogBody)")
                 if let apiError = try? decoder.decode(ErrorResponse.self, from: data),
                    let message = apiError.error {
                     throw APIError.server(message: message, statusCode: httpResponse.statusCode)

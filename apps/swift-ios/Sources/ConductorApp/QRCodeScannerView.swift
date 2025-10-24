@@ -1,7 +1,7 @@
 import SwiftUI
 import AVFoundation
 
-struct QRCodeScannerView: UIViewControllerRepresentable {
+struct QRCodeScannerView: UIViewRepresentable {
     enum ScanningError: LocalizedError {
         case permissionDenied
         case cameraUnavailable
@@ -19,28 +19,39 @@ struct QRCodeScannerView: UIViewControllerRepresentable {
     let isActive: Bool
     let onResult: (Result<String, ScanningError>) -> Void
 
-    func makeUIViewController(context: Context) -> ScannerViewController {
-        ScannerViewController(onResult: onResult)
+    func makeUIView(context: Context) -> ScannerPreviewView {
+        let view = ScannerPreviewView(onResult: onResult)
+        view.setScanning(isActive)
+        return view
     }
 
-    func updateUIViewController(_ uiViewController: ScannerViewController, context: Context) {
-        uiViewController.setScanning(isActive)
+    func updateUIView(_ uiView: ScannerPreviewView, context: Context) {
+        uiView.setScanning(isActive)
     }
 }
 
 @MainActor
-final class ScannerViewController: UIViewController {
+final class ScannerPreviewView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     private let captureSession = AVCaptureSession()
+    private let sessionQueue = DispatchQueue(label: "com.conductor.scanner.session")
     private let onResult: (Result<String, QRCodeScannerView.ScanningError>) -> Void
 
-    private var previewLayer: AVCaptureVideoPreviewLayer?
     private var isConfigured = false
     private var shouldScan = false
     private var isProcessingResult = false
 
+    override class var layerClass: AnyClass {
+        AVCaptureVideoPreviewLayer.self
+    }
+
+    private var previewLayer: AVCaptureVideoPreviewLayer {
+        layer as! AVCaptureVideoPreviewLayer
+    }
+
     init(onResult: @escaping (Result<String, QRCodeScannerView.ScanningError>) -> Void) {
         self.onResult = onResult
-        super.init(nibName: nil, bundle: nil)
+        super.init(frame: .zero)
+        backgroundColor = .black
     }
 
     @available(*, unavailable)
@@ -48,14 +59,9 @@ final class ScannerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .black
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        previewLayer?.frame = view.bounds
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        previewLayer.frame = bounds
     }
 
     func setScanning(_ active: Bool) {
@@ -63,41 +69,40 @@ final class ScannerViewController: UIViewController {
 
         if active {
             configureSessionIfNeeded()
-            startSessionIfNeeded()
         } else {
             stopSession()
         }
     }
 
     private func configureSessionIfNeeded() {
-        guard !isConfigured else { return }
-
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            setupSession()
+            setupSessionIfNeeded()
+            startSessionIfNeeded()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
                 guard let self else { return }
 
                 DispatchQueue.main.async {
                     if granted {
-                        self.setupSession()
-                        if self.shouldScan {
-                            self.startSessionIfNeeded()
-                        }
+                        self.setupSessionIfNeeded()
+                        self.startSessionIfNeeded()
                     } else {
+                        self.shouldScan = false
                         self.onResult(.failure(.permissionDenied))
                     }
                 }
             }
         case .denied, .restricted:
+            shouldScan = false
             onResult(.failure(.permissionDenied))
         @unknown default:
+            shouldScan = false
             onResult(.failure(.permissionDenied))
         }
     }
 
-    private func setupSession() {
+    private func setupSessionIfNeeded() {
         guard !isConfigured else { return }
 
         guard let videoDevice = AVCaptureDevice.default(for: .video) else {
@@ -122,31 +127,36 @@ final class ScannerViewController: UIViewController {
             return
         }
 
-        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.session = captureSession
         previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.frame = view.layer.bounds
 
-        view.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        view.layer.addSublayer(previewLayer)
-
-        self.previewLayer = previewLayer
         isConfigured = true
     }
 
     private func startSessionIfNeeded() {
         guard shouldScan, isConfigured else { return }
 
-        if !captureSession.isRunning {
-            isProcessingResult = false
-            captureSession.startRunning()
+        sessionQueue.async { [weak self] in
+            guard let self else { return }
+            if !self.captureSession.isRunning {
+                DispatchQueue.main.async {
+                    self.isProcessingResult = false
+                }
+                self.captureSession.startRunning()
+            }
         }
     }
 
     private func stopSession() {
-        if captureSession.isRunning {
-            captureSession.stopRunning()
+        sessionQueue.async { [weak self] in
+            guard let self else { return }
+            if self.captureSession.isRunning {
+                self.captureSession.stopRunning()
+            }
+            DispatchQueue.main.async {
+                self.isProcessingResult = false
+            }
         }
-        isProcessingResult = false
     }
 
     private func handleScannedValue(_ value: String) {
@@ -156,9 +166,8 @@ final class ScannerViewController: UIViewController {
         onResult(.success(value))
     }
 
-}
+    // MARK: - AVCaptureMetadataOutputObjectsDelegate
 
-extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     nonisolated func metadataOutput(
         _ output: AVCaptureMetadataOutput,
         didOutput metadataObjects: [AVMetadataObject],

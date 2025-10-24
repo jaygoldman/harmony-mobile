@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "2600"
-   version = "1.7">
+   version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9D8D6D372EABF42900A29C1C"
-               BuildableName = "ConductorHost.app"
+               BuildableName = "Conductor.app"
                BlueprintName = "ConductorHost"
                ReferencedContainer = "container:ConductorHost.xcodeproj">
             </BuildableReference>
@@ -32,11 +32,13 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D8D6D372EABF42900A29C1C"
-            BuildableName = "ConductorHost.app"
+            BuildableName = "Conductor.app"
             BlueprintName = "ConductorHost"
             ReferencedContainer = "container:ConductorHost.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -53,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D8D6D372EABF42900A29C1C"
-            BuildableName = "ConductorHost.app"
+            BuildableName = "Conductor.app"
             BlueprintName = "ConductorHost"
             ReferencedContainer = "container:ConductorHost.xcodeproj">
          </BuildableReference>
@@ -70,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D8D6D372EABF42900A29C1C"
-            BuildableName = "ConductorHost.app"
+            BuildableName = "Conductor.app"
             BlueprintName = "ConductorHost"
             ReferencedContainer = "container:ConductorHost.xcodeproj">
          </BuildableReference>

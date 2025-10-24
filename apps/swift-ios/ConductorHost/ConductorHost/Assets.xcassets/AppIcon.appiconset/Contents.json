@@ -36,6 +36,7 @@
       "size": "38x38"
     },
     {
+      "filename": "icon-default-114x114.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -70,18 +71,21 @@
       "size": "60x60"
     },
     {
+      "filename": "icon-default-128x128.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
       "size": "64x64"
     },
     {
+      "filename": "icon-default-192x192.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
       "size": "64x64"
     },
     {
+      "filename": "icon-default-136x136.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -179,6 +183,7 @@
           "value": "dark"
         }
       ],
+      "filename": "icon-dark-114x114.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -243,6 +248,7 @@
           "value": "dark"
         }
       ],
+      "filename": "icon-dark-128x128.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -255,6 +261,7 @@
           "value": "dark"
         }
       ],
+      "filename": "icon-dark-192x192.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -267,6 +274,7 @@
           "value": "dark"
         }
       ],
+      "filename": "icon-dark-136x136.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -279,6 +287,7 @@
           "value": "dark"
         }
       ],
+      "filename": "Icon-App-76x76@2x~ipad~dark.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -291,6 +300,7 @@
           "value": "dark"
         }
       ],
+      "filename": "Icon-App-83.5x83.5@2x~ipad~dark.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -303,6 +313,7 @@
           "value": "dark"
         }
       ],
+      "filename": "Icon-App-1024x1024@1x~dark.png",
       "idiom": "universal",
       "platform": "ios",
       "size": "1024x1024"
@@ -314,6 +325,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-20x20@2x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -326,6 +338,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-20x20@3x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -338,6 +351,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-29x29@2x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -350,6 +364,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-29x29@3x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -362,6 +377,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-76x76@1x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -374,6 +390,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "icon-tinted-114x114.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -386,6 +403,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-40x40@2x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -398,6 +416,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-60x60@2x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -410,6 +429,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-60x60@2x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -422,6 +442,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-60x60@3x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -434,6 +455,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "icon-tinted-128x128.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -446,6 +468,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "icon-tinted-192x192.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "3x",
@@ -458,6 +481,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "icon-tinted-136x136.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -470,6 +494,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-76x76@2x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -482,6 +507,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-83.5x83.5@2x~ipad~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "scale": "2x",
@@ -494,6 +520,7 @@
           "value": "tinted"
         }
       ],
+      "filename": "Icon-App-1024x1024@1x~tinted.png",
       "idiom": "universal",
       "platform": "ios",
       "size": "1024x1024"

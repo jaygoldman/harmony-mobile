@@ -4,8 +4,11 @@ import ConductorData
 import ConductorDemoFeatures
 
 public struct ConductorShellView: View {
+    @EnvironmentObject private var appViewModel: ConductorAppViewModel
     @State private var selection: DemoDestination
     @StateObject private var dataStore: DemoDataStore
+    @State private var showAccountMenu = false
+    @State private var confirmSignOut = false
 
     private let theme: ConductorTheme
     private let catalog: FeatureCatalog
@@ -23,53 +26,92 @@ public struct ConductorShellView: View {
 
     public var body: some View {
         GlassBackground(theme: theme) {
-            VStack(spacing: 0) {
-                HStack {
-                    UserMenuButton(initial: dataStore.userInitial)
-                    Spacer()
+            ZStack(alignment: .topLeading) {
+                VStack(spacing: 0) {
+                    HeaderBar(initial: dataStore.userInitial) {
+                        withAnimation(.spring(response: 0.28, dampingFraction: 0.82)) {
+                            showAccountMenu.toggle()
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, 8)
+
+                    TabView(selection: $selection) {
+                        ActivityTab(theme: theme)
+                            .tag(DemoDestination.activity)
+                            .tabItem {
+                                Label(DemoDestination.activity.title, systemImage: DemoDestination.activity.iconSystemName)
+                            }
+
+                        HarmonyTab(theme: theme)
+                            .tag(DemoDestination.harmony)
+                            .tabItem {
+                                Label(DemoDestination.harmony.title, systemImage: DemoDestination.harmony.iconSystemName)
+                            }
+
+                        KPITab(theme: theme)
+                            .tag(DemoDestination.kpis)
+                            .tabItem {
+                                Label(DemoDestination.kpis.title, systemImage: DemoDestination.kpis.iconSystemName)
+                            }
+
+                        TasksTab(theme: theme)
+                            .tag(DemoDestination.tasks)
+                            .tabItem {
+                                Label(DemoDestination.tasks.title, systemImage: DemoDestination.tasks.iconSystemName)
+                            }
+
+                        PodcastsTab(theme: theme)
+                            .tag(DemoDestination.podcasts)
+                            .tabItem {
+                                Label(DemoDestination.podcasts.title, systemImage: DemoDestination.podcasts.iconSystemName)
+                            }
+                    }
+                    .toolbarBackground(.visible, for: .tabBar)
+                    .toolbarBackground(theme.tabBarMaterial, for: .tabBar)
+                    .toolbarColorScheme(.dark, for: .tabBar)
+                    .environmentObject(dataStore)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                TabView(selection: $selection) {
-                ActivityTab(theme: theme)
-                    .tag(DemoDestination.activity)
-                    .tabItem {
-                        Label(DemoDestination.activity.title, systemImage: DemoDestination.activity.iconSystemName)
-                    }
+                if showAccountMenu {
+                    Color.black.opacity(0.001)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation(.easeInOut(duration: 0.18)) {
+                                showAccountMenu = false
+                            }
+                        }
 
-                HarmonyTab(theme: theme)
-                    .tag(DemoDestination.harmony)
-                    .tabItem {
-                        Label(DemoDestination.harmony.title, systemImage: DemoDestination.harmony.iconSystemName)
-                    }
-
-                KPITab(theme: theme)
-                    .tag(DemoDestination.kpis)
-                    .tabItem {
-                        Label(DemoDestination.kpis.title, systemImage: DemoDestination.kpis.iconSystemName)
-                    }
-
-                TasksTab(theme: theme)
-                    .tag(DemoDestination.tasks)
-                    .tabItem {
-                        Label(DemoDestination.tasks.title, systemImage: DemoDestination.tasks.iconSystemName)
-                    }
-
-                PodcastsTab(theme: theme)
-                    .tag(DemoDestination.podcasts)
-                    .tabItem {
-                        Label(DemoDestination.podcasts.title, systemImage: DemoDestination.podcasts.iconSystemName)
-                    }
+                    AccountMenuCard(
+                        onSettings: {
+                            withAnimation(.easeInOut(duration: 0.18)) {
+                                showAccountMenu = false
+                            }
+                        },
+                        onSignOut: {
+                            withAnimation(.easeInOut(duration: 0.18)) {
+                                showAccountMenu = false
+                            }
+                            confirmSignOut = true
+                        }
+                    )
+                    .padding(.top, 70)
+                    .padding(.leading, 20)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .zIndex(1)
                 }
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.tabBarMaterial, for: .tabBar)
-                .toolbarColorScheme(.dark, for: .tabBar)
-                .environmentObject(dataStore)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        }
+        .confirmationDialog("Sign out of Conductor?", isPresented: $confirmSignOut, titleVisibility: .visible) {
+            Button("Sign out", role: .destructive) {
+                showAccountMenu = false
+                appViewModel.disconnect()
+            }
+            Button("Cancel", role: .cancel) {}
         }
         .tint(theme.accent)
         .preferredColorScheme(.dark)
@@ -316,29 +358,76 @@ private struct GlassCard<Content: View>: View {
     }
 }
 
-private struct UserMenuButton: View {
+private struct HeaderBar: View {
     let initial: String
+    let onTap: () -> Void
 
     var body: some View {
-        let trimmedInitial = initial.trimmingCharacters(in: .whitespacesAndNewlines)
-        let displayInitial = trimmedInitial.isEmpty ? "?" : String(trimmedInitial.prefix(1)).uppercased()
-
-        Menu {
-            Button("Settings", systemImage: "gearshape") {}
-            Button(role: .destructive) {} label: {
-                Label("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
+        HStack {
+            Button(action: onTap) {
+                Circle()
+                    .fill(Color.white.opacity(0.18))
+                    .overlay(
+                        Text(displayInitial)
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.white)
+                    )
+                    .frame(width: 42, height: 42)
+                    .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 6)
             }
-        } label: {
-            Circle()
-                .fill(Color.white.opacity(0.18))
-                .overlay(
-                    Text(displayInitial)
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(.white)
-                )
-                .frame(width: 42, height: 42)
-                .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 6)
+            .buttonStyle(.plain)
+
+            Spacer()
         }
+    }
+
+    private var displayInitial: String {
+        let trimmedInitial = initial.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedInitial.isEmpty ? "?" : String(trimmedInitial.prefix(1)).uppercased()
+    }
+}
+
+private struct AccountMenuCard: View {
+    let onSettings: () -> Void
+    let onSignOut: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Button(action: onSettings) {
+                Label("Settings", systemImage: "gearshape")
+                    .font(.callout.weight(.semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
+
+            Divider()
+                .background(Color.white.opacity(0.2))
+
+            Button(action: onSignOut) {
+                Label("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
+                    .font(.callout.weight(.semibold))
+                    .foregroundColor(.red.opacity(0.9))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, 16)
+        .padding(.horizontal, 18)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white.opacity(0.08))
+                .background(
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .fill(Color.black.opacity(0.45))
+                        .blur(radius: 14)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .stroke(Color.white.opacity(0.18), lineWidth: 1)
+                )
+        )
+        .shadow(color: .black.opacity(0.35), radius: 18, x: 0, y: 10)
     }
 }
 
@@ -447,5 +536,6 @@ private struct TrailingIconLabelStyle: LabelStyle {
 #if DEBUG
 #Preview {
     ConductorShellView()
+        .environmentObject(ConductorAppViewModel())
 }
 #endif

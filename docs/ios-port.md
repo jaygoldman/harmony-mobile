@@ -56,6 +56,7 @@ Earlier versions of the app were called Harmony. The app is correctly called "Co
 - Use the system `TabView`/`UITabBar` for primary navigation, layering Liquid Glass styling via toolbar backgrounds rather than rebuilding the control.
 - Drive feature flows with `NavigationStack`/`NavigationPath`, limiting deep-linking to scripted demo journeys.
 - Manage state with lightweight `@Observable` view models resolved via a simple dependency container—no heavy singleton graph.
+- **Avoid UIKit reparenting hacks.** Never call `addSubview` on `UIHostingController.view`, attempt to attach popovers via `UIApplication` window shims, or hoist SwiftUI menus outside the current view hierarchy. Those patterns trigger `_UIReparentingView` warnings and break focus/gesture handling. Keep overlays inside SwiftUI (`ZStack`, `.overlay`) or wrap UIKit components with `UIViewRepresentable`/`UIViewControllerRepresentable`.
 
 ### Data & networking
 

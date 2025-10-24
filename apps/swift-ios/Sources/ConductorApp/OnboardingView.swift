@@ -198,7 +198,6 @@ struct OnboardingView: View {
     }
 
     private func processScannedPayload(_ payload: String) {
-        print("[Onboarding] Scanned QR payload: \(payload)")
         localErrorMessage = nil
         cameraMessage = nil
 
@@ -230,7 +229,6 @@ struct OnboardingView: View {
 
         do {
             let payload = try viewModel.manualConnectionPayload(code: manualCode, apiUrlString: manualApiURL)
-            print("[Onboarding] Manual connection payload: code=\(payload.code) url=\(payload.apiUrl)")
             manualEntryPresented = false
             lastProcessedPayload = "\(payload.code)|\(payload.apiUrl.absoluteString)"
             scannerIsActive = false
