@@ -12,7 +12,7 @@ import ConductorApp
 struct ConductorHostApp: App {
     var body: some Scene {
         WindowGroup {
-            ConductorShellView()
+            ConductorAppRootView()
         }
     }
 }

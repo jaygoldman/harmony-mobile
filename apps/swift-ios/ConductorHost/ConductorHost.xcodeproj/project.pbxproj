@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9D8D6D4C2EABF5D300A29C1C /* ConductorApp in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8D6D4B2EABF5D300A29C1C /* ConductorApp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		9D8D6D382EABF42900A29C1C /* ConductorHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConductorHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8D6D4C2EABF5D300A29C1C /* ConductorApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ConductorHost;
 			packageProductDependencies = (
+				9D8D6D4B2EABF5D300A29C1C /* ConductorApp */,
 			);
 			productName = ConductorHost;
 			productReference = 9D8D6D382EABF42900A29C1C /* ConductorHost.app */;
@@ -98,6 +104,9 @@
 			productRefGroup = 9D8D6D392EABF42900A29C1C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
+			packageReferences = (
+				9D8D6D4A2EABF5D300A29C1C /* ConductorWorkspace */,
+			);
 			targets = (
 				9D8D6D372EABF42900A29C1C /* ConductorHost */,
 			);
@@ -123,6 +132,10 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		9D8D6D4A2EABF5D300A29C1C /* ConductorWorkspace */ = {isa = XCLocalSwiftPackageReference; relativePath = ".."; };
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCBuildConfiguration section */
 		9D8D6D412EABF42C00A29C1C /* Debug */ = {
@@ -256,6 +269,7 @@
 				DEVELOPMENT_TEAM = 59RL55867G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Conductor uses the camera to scan desktop QR codes and link your account.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +302,7 @@
 				DEVELOPMENT_TEAM = 59RL55867G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Conductor uses the camera to scan desktop QR codes and link your account.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -332,6 +347,10 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9D8D6D4B2EABF5D300A29C1C /* ConductorApp */ = {isa = XCSwiftPackageProductDependency; productName = ConductorApp; package = 9D8D6D4A2EABF5D300A29C1C /* ConductorWorkspace */; };
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9D8D6D302EABF42900A29C1C /* Project object */;
 }

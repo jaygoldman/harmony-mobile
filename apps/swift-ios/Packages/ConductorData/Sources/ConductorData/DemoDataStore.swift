@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: - Domain Models
 
@@ -276,10 +277,11 @@ public extension DemoPayload {
 
 // MARK: - Store
 
+@available(macOS 10.15, iOS 13, *)
 @MainActor
 public final class DemoDataStore: ObservableObject {
     @Published public private(set) var payload: DemoPayload
-    public let userInitial: String
+    @Published public private(set) var userInitial: String
 
     public init(payload: DemoPayload = .demo, userInitial: String = "J") {
         self.payload = payload
@@ -315,6 +317,18 @@ public final class DemoDataStore: ObservableObject {
         payload.harmonyMessages.rotate()
         payload.activity.rotate()
         payload.tasks.rotate()
+    }
+
+    public func updateUserInitial(_ newInitial: String) {
+        userInitial = newInitial
+    }
+
+    public func replace(payload newPayload: DemoPayload, userInitial: String? = nil) {
+        self.payload = newPayload
+
+        if let userInitial {
+            self.userInitial = userInitial
+        }
     }
 }
 
